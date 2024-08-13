@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+check() {
+	command -v "$1" 1>/dev/null
+}
+
+notify() {
+	check notify-send && {
+		notify-send "$@"
+		return
+	}
+	echo "$@"
+}
+
+stringToLen() {
+	STRING="$1"
+	LEN="$2"
+	if [ ${#STRING} -gt "$LEN" ]; then
+		echo "${STRING:0:$((LEN - 2))}.."
+	else
+		printf "%-20s" "$STRING"
+	fi
+}
+
+check checkupdates || {
+	cat <<EOF
+  {"text":"ERR","tooltip":"checkupdates is not installed"}
+EOF
+	exit 1
+}
+IFS=$'\n'$'\r'
+
+mapfile -t packages < <(checkupdates)
+
+pkgNum=${#packages[@]}
+tooltip="<b>$pkgNum packages (arch+aur) </b>\n"
+
+for i in "${packages[@]}"; do
+	update="$(stringToLen $(echo "$i" | awk '{print $1}') 20)"
+	tooltip+="<b> $update </b>\n"
+done
+
+tooltip=${tooltip::-2}
+
+if [ $pkgNum -eq 0 ]; then
+	exit 1
+fi
+
+cat <<EOF
+{ "text":"$pkgNum", "tooltip":"$tooltip"}  
+EOF

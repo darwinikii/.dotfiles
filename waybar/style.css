@@ -1,0 +1,136 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font";
+    font-weight: bold;
+    font-size: 16px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(21, 18, 27, 0);
+    color: #cdd6f4;
+}
+
+tooltip {
+    background: #1e1e2e;
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #11111b;
+}
+
+#custom-network,
+#custom-spotify,
+#custom-pacman,
+#custom-trash,
+#workspaces,
+#gamemode,
+#custom-menu,
+#window,
+#clock,
+#pulseaudio,
+#workspaces,
+#tray, 
+#custom-wallpapers,
+#custom-exit,
+#memory,
+#cpu {
+    background: #1e1e2e;
+    opacity: 0.8;
+    padding: 0px 10px;
+    margin: 3px 0px;
+    border: 1px solid #181825;
+}
+
+#tray {
+    border-radius: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#workspaces {
+    background: #1e1e2e;
+    border-radius: 10px;
+    margin-left: 5px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+#window {
+    border-radius: 10px;
+    margin-right: 60px;
+    transition: all 0.5s ease-in-out;
+}
+
+#clock {
+    color: #7E53AF ;
+    border-radius: 10px 10px 10px 10px;
+    margin-left: 5px;
+    border-right: 10px;
+}
+
+#pulseaudio {
+    color: #7E53AF;
+    border-radius: 10px 0px 0px 10px;
+}
+
+#pulseaudio.microphone {
+    color: #7E53AF;
+    border-left: 0px;
+    border-right: 0px;
+    border-radius: 0px 10px 10px 0px;
+    margin-right: 5px;
+}
+
+#custom-network,
+#custom-spotify,
+#custom-pacman,
+#custom-trash,
+#workspaces,
+#gamemode,
+#custom-wallpapers,
+#custom-exit,
+#custom-menu,
+#memory,
+#cpu {
+    color: #7E53AF;
+    background: #1e1e2e;
+    border-radius: 10px 10px 10px 10px;
+    border-left: 10px;
+    border-right: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#custom-network,
+#custom-exit,
+#custom-pacman,
+#custom-menu,
+#memory,
+#cpu {
+    padding-right: 12px;
+}
+
+#gamemode {
+  padding-left: 14px;
+}
+
+window#waybar.empty #window {
+  opacity: 0;
+}
+
+#workspaces button {
+  color: #7E53AF;
+}
+
+#tray menu {
+  color: #7E53AF;
+  background: #1e1e2e;
+}
+
+#custom-spotify {
+    color: #1DB954;
+}

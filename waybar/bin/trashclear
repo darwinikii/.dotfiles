@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+homeCheck=(".cache" ".discord-rpc" ".hyprland" ".local/share/Trash")
+rootCheck=("var/cache" "var/tmp" "var/log")
+
+sudo pacman -Rsn $(yay -Qdtq)
+for i in "${homeCheck[@]}"; do
+	echo ~/$i
+	sudo rm -rf ~/$i/*
+done
+
+for i in "${rootCheck[@]}"; do
+	echo /$i
+	sleep 1
+	sudo rm -rf /$i/*
+done

@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+homeCheck=(".cache" ".discord-rpc" ".hyprland" ".local/share/Trash")
+rootCheck=("var/cache" "var/tmp" "var/log")
+
+
+check() {
+	command -v "$1" 1>/dev/null
+}
+
+notify() {
+	check notify-send && {
+		notify-send "$@"
+		return
+	}
+	echo "$@"
+}
+
+stringToLen() {
+	STRING="$1"
+	LEN="$2"
+	if [ ${#STRING} -gt "$LEN" ]; then
+		echo "${STRING:0:$((LEN - 2))}.."
+	else
+		printf "%-20s" "$STRING"
+	fi
+}
+
+check yay || {
+	cat <<EOF
+  {"text":"ERR","tooltip":"yay is not installed"}
+EOF
+	exit 1
+}
+IFS=$'\n'$'\r'
+
+mapfile -t packages < <(yay -Qdtq)
+
+pkgNum=${#packages[@]}
+num+=$pkgNum
+tooltip="<b>$pkgNum packages </b>\n"
+
+for i in "${packages[@]}"; do
+	update="$(stringToLen $(echo "$i" | awk '{print $1}') 20)"
+	tooltip+="<b> $update </b>\n"
+done
+
+trashFiles=()
+for i in "${homeCheck[@]}"; do
+	innerFiles="$(ls $(echo ~/$i))"
+
+	for file in $(echo $innerFiles | tr " " "\n"); do
+		trashFiles+=("$i/$file")
+	done
+done
+fileNum=${#trashFiles[@]}
+num=$(($fileNum + num))
+
+#for file in "${trashFiles[@]}"; do
+#	echo $file
+#done
+
+tooltip+="<b>$fileNum files (home) </b>\n"
+
+roottrashFiles=()
+for i in "${rootCheck[@]}"; do
+	innerFiles="$(ls $(echo /$i))"
+	
+	for file in $(echo $innerFiles | tr " " "\n"); do
+		roottrashFiles+=("$i/$file")
+	done
+done
+rootfileNum=${#roottrashFiles[@]}
+num=$(($rootfileNum + num))
+
+#for file in "${trashFiles[@]}"; do
+#	echo $file
+#done
+
+tooltip+="<b>$rootfileNum files (root) </b>\n"
+
+tooltip=${tooltip::-2}
+
+if [ $num -eq 0 ]; then
+	exit 1
+fi
+
+cat <<EOF
+{ "text":"$num", "tooltip":"$tooltip"}  
+EOF
