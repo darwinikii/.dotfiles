@@ -20,8 +20,10 @@ tooltip {
     border-color: #11111b;
 }
 
+#custom-playeraudio,
+#custom-windows,
 #custom-network,
-#custom-spotify,
+#custom-mediaplayer,
 #custom-pacman,
 #custom-trash,
 #workspaces,
@@ -34,6 +36,7 @@ tooltip {
 #tray, 
 #custom-wallpapers,
 #custom-exit,
+#bluetooth,
 #memory,
 #cpu {
     background: #1e1e2e;
@@ -83,8 +86,13 @@ tooltip {
     margin-right: 5px;
 }
 
+#custom-playeraudio.spotify {
+    color: #1DB954;
+}
+
+#custom-windows,
 #custom-network,
-#custom-spotify,
+#custom-mediaplayer,
 #custom-pacman,
 #custom-trash,
 #workspaces,
@@ -92,6 +100,7 @@ tooltip {
 #custom-wallpapers,
 #custom-exit,
 #custom-menu,
+#bluetooth,
 #memory,
 #cpu {
     color: #7E53AF;
@@ -105,13 +114,19 @@ tooltip {
     padding-right: 10px;
 }
 
+#custom-windows,
 #custom-network,
 #custom-exit,
 #custom-pacman,
 #custom-menu,
 #memory,
 #cpu {
-    padding-right: 12px;
+    padding-right: 13px;
+}
+
+#custom-mediaplayer,
+#custom-menu {
+    padding-right: 15px;
 }
 
 #gamemode {
@@ -131,6 +146,22 @@ window#waybar.empty #window {
   background: #1e1e2e;
 }
 
-#custom-spotify {
+#custom-windows {
+  margin-right: 0px;
+  border-radius: 10px 0px 0px 10px; 
+}
+
+#custom-exit {
+  margin-left: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-radius: 0px 10px 10px 0px;
+}
+
+#custom-mediaplayer.spotify {
     color: #1DB954;
+}
+
+#custom-mediaplayer.youtube {
+    color: #ff0000;
 }

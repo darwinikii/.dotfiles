@@ -8,56 +8,40 @@
         "passthrough": false,
         "gtk-layer-shell": true,
         "height": 30,
-        "modules-left": ["custom/menu", "gamemode", "hyprland/workspaces", "custom/spotify", "hyprland/window"],
+        "modules-left": ["custom/menu", "gamemode", "hyprland/workspaces", "custom/mediaplayer", "hyprland/window"],
         "modules-center": ["clock"],
-        "modules-right": ["custom/pacman", "custom/trash", "memory", "cpu", "pulseaudio", "pulseaudio#microphone", "custom/network", "tray", "custom/exit"],
+        "modules-right": ["custom/pacman", "custom/trash", "memory", "cpu", "pulseaudio", "custom/playeraudio", "pulseaudio#microphone", "custom/network", "tray", "custom/windows", "custom/exit"],
         "output": "DP-1",
         "margin-top": 10,
-    
+
         "hyprland/window": {
             "format": "{}"
         },
-    
+
         "custom/network": {
             "exec-on-event": true,
             "return-type": "json",
             "format": "{}",
             "restart-interval": 3600,
             "exec": "python ~/.config/waybar/bin/network.py",
+            "on-click": "",
             "tooltip": false
         },
-    
-        "custom/spotify": {
-            "exec": "/usr/bin/python3 ~/.config/waybar/bin/mediaplayer.py --player spotify",
-            "format": "{} ",
+
+        "custom/mediaplayer": {
+            "exec": "/usr/bin/python3 ~/.config/waybar/bin/mediaplayer.py",
+            "format": "{} {icon}",
+            "format-icons": {
+              "spotify": "",
+              "youtube": "",
+              "default": "🎜"
+            },
             "return-type": "json",
-            "on-click": "playerctl play-pause",
-            "on-scroll-up": "playerctl next",
-            "on-scroll-down": "playerctl previous"
+            "on-click": "/usr/bin/python3 ~/.config/waybar/bin/mediaplayer.py --play-pause",
+            "on-scroll-up": "/usr/bin/python3 ~/.config/waybar/bin/mediaplayer.py --next",
+            "on-scroll-down": "/usr/bin/python3 ~/.config/waybar/bin/mediaplayer.py --prev"
         },
-        
-        "custom/pacman": {
-            "return-type": "json",
-            "format": "{} ",
-            "interval": 3600,
-            "exec": "~/.config/waybar/bin/updatecheck",
-            "exec-if": "exit 0",
-            "on-click": "kitty ~/.config/waybar/bin/updateexec",
-            "signal": 8,
-            "tooltip": true
-        },
-    
-        "custom/trash": {
-            "return-type": "json",
-            "format": "{} 󰩺",
-            "interval": 3600,
-            "exec": "~/.config/waybar/bin/trashcheck",
-            "exec-if": "exit 0",
-            "on-click": "kitty ~/.config/waybar/bin/trashclear",
-            "signal": 8,
-            "tooltip": true
-        },
-        
+
         "hyprland/workspaces": {
             "format": "{icon}",
             "disable-scroll": true,
@@ -71,17 +55,17 @@
             "empty": "󰧵"
         }
         },
-    
+
         "custom/menu": {
             "format": "",
             "tooltip": false,
-            "on-click": "bash /home/darwinikii/.config/rofi/launchers/type-5/launcher.sh"
+            "on-click": "~/.config/wofi/start"
         },
-        
+
         "gamemode": {
             "format": "{glyph}",
             "format-alt": "{glyph} {count}",
-            "glyph": "",
+            "glyph": "󰊴",
             "hide-not-running": true,
             "use-icon": true,
             "icon-name": "input-gaming-symbolic",
@@ -89,20 +73,30 @@
             "tooltip": true,
             "tooltip-format": "Games running: {count}"
         },
-        
+
         "tray": {
             "icon-size": 18,
-            "spacing": 10
+            "spacing": 10,
+
         },
-    
+
         "clock": {
-            "format": "{:  %H:%M    %a, %b %e}",
-            "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+            "format": " {:%H:%M}",
+            "tooltip-format": "<tt><small>{calendar}</small></tt>"
         },
-    
+
+        "custom/playeraudio": {
+            "exec":   "/usr/bin/python3 ~/.config/waybar/bin/mediaplayer.py --playeraudio",
+            "return-type": "json",
+            "tooltip":  true,
+            "tooltip-format": "{1}",
+            "on-click": "/usr/bin/python3 ~/.config/waybar/bin/mediaplayer.py --mute",
+            "on-scroll-up": "/usr/bin/python3 ~/.config/waybar/bin/mediaplayer.py --volume-up",
+            "on-scroll-down": "/usr/bin/python3 ~/.config/waybar/bin/mediaplayer.py --volume-down"
+        },
+
         "pulseaudio": {
             "format": "{icon} {volume}%",
-            "tooltip": false,
             "format-muted": " Muted",
             "on-click": "pamixer -t",
             "on-scroll-up": "pamixer -i 5",
@@ -119,7 +113,7 @@
                 "default": ["", "", ""]
             }
         },
-    
+
         "pulseaudio#microphone": {
             "format": "{format_source}",
             "format-source": " {volume}%",
@@ -130,22 +124,32 @@
             "on-click-right": "pavucontrol",
             "scroll-step": 5
         },
-        
+
         "memory": {
-        "interval": 30,
+            "interval": 30,
             "format": "{}% ",
+            "max-length": 10,
+            "tooltip": true,
+            "tooltip-format": "RAM : {used:0.1f}G/{total:0.1f}G\nSwap : {swapUsed:0.1f}G/{swapTotal:0.1f}G",
+        },
+
+        "cpu": {
+            "interval": 10,
+            "format": "{usage}% ",
             "max-length": 10
         },
-    
-        "cpu": {
-        "interval": 10,
-            "format": "{}% ",
-        "max-length": 10
+
+        "custom/windows": {
+          "format": "",
+          "tooltip-format": "Reboot for Windows",
+          "on-click": "systemctl reboot --boot-loader-entry=auto-windows"
         },
-    
+
         "custom/exit": {
         "format": "⏻",
-        "on-click": "bash /home/darwinikii/.config/rofi/powermenu/type-3/powermenu.sh"
+        "tooltip-format": "Shutdown",
+        "on-click": "systemctl poweroff"
         }
     }
 ]
+

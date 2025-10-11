@@ -1,0 +1,12 @@
+window#osd {
+	background: alpha(#1e1e2e, 1);
+        border: 1px solid #181825;
+}
+
+image, label {
+	color: #7E53AF;
+}
+
+progress {
+	background: #7E53AF;
+}
